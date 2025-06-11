@@ -15,14 +15,9 @@ def dataChange(req):
     return render(req,'data.html',context={'table':cartTable})
     
 def ecom(req):
-    response = requests.get('https://dummyjson.com/products',params={"limit":20})
-    data = response.json()
-    print(data)
-    #   brandList = []
-    # for i in data['products']:
-    #     if i['brand'] == 'Essence':
-    #         brandList.append(i)
-    return render(req,'ecom.html',context={"productList":data['products']})
+   shoes=models.Shoe.objects.all().values()
+   print(shoes)
+   return render(req,'ecom.html',context={"productList":shoes})
 
 def deleteOrder(req,id):
     order = models.cart.objects.get(id=id)
@@ -41,10 +36,8 @@ def alterOrder(req,id):
         return render(req,"alter.html",context={"data":order})
     
 def buyProduct(req,id):
-    response = requests.get(f'https://dummyjson.com/products/{id}')
-    data = response.json()
-    print(data)
-    return render(req,"buy.html",context={"data":data})
+   shoes=models.Shoe.objects.get(id=id)
+   return render(req,"buy.html",context={"data":shoes})
 
 def addTocart(req,id):
    user = models.users.objects.get(id = userID)
