@@ -59,10 +59,36 @@ def removeFromcart(req,id):
 
 def cartpage(req):
    user = models.users.objects.get(id = userID)
-   usercart = json.loads(user.cart)
+   cart = json.loads(user.cart)
    cartItem= []
-   for i in usercart:
-        response = requests.get(f'https://dummyjson.com/products/{i}')
-        data = response.json()
-        cartItem.append(data)
+   for i in cart:
+        item=models.Shoe.objects.get(id=i)
+        cartItem.append(item)
    return render(req,'cart.html',context={"cartitem":cartItem})
+
+def addTowhish(req,id):
+    user=models.users.objects.get(id=userID)
+    usercart=json.loads(user.cart)
+    usercart.append(id)
+    user.cart=usercart
+    user.save()
+    print(usercart)
+    return redirect(f"/buy/{id}?addedtowhish=true")
+
+def whishlist(req):
+    user=models.users.objects.get(id=userID)
+    whishcart=json.loads(user.cart)
+    whish=[]
+    for i in whishcart:
+        item=models.Shoe.objects.get(id=i)
+        whish.append(item)
+    return render(req,"whishlist.html",context={"list":whish})    
+
+def removefromwhishlist(req,id):
+    user=models.users.objects.get(id=userID)
+    usercart=json.loads(user.cart)
+    usercart.remove(id)
+    user.cart=usercart
+    user.save()
+    print(usercart)
+    return redirect(f"/whishlist?removefromwhishlist=true")

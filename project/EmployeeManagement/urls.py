@@ -10,5 +10,8 @@ urlpatterns = [
     path('buy/<int:id>',views.buyProduct),
     path('addToCart/<int:id>',views.addTocart),
     path('removefromcart/<int:id>',views.removeFromcart),
-    path('cart',views.cartpage)
+    path('cart',views.cartpage),
+    path('addTowhish/<int:id>',views.addTowhish),
+    path('whishlist',views.whishlist),
+    path('removefromwhishlist/<int:id>',views.removefromwhishlist),
 ]
